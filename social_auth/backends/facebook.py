@@ -14,6 +14,7 @@ import urllib
 from django.conf import settings
 from django.utils import simplejson
 from django.contrib.auth import authenticate
+from django.template.defaultfilters import slugify
 
 from social_auth.backends import BaseOAuth, OAuthBackend, USERNAME
 
@@ -31,7 +32,7 @@ class FacebookBackend(OAuthBackend):
 
     def get_user_details(self, response):
         """Return user details from Facebook account"""
-        return {USERNAME: response['name'],
+        return {USERNAME: slugify(response['name']),
                 'email': response.get('email', ''),
                 'fullname': response['name'],
                 'first_name': response.get('first_name', ''),
